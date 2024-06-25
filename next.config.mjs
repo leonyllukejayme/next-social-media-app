@@ -4,6 +4,14 @@ const nextConfig = {
     reactCompiler: true,
     ppr: 'incremental'
   },
+  images:{
+    remotePatterns:[
+      {
+        protocol:'https',
+        hostname:'upload.wikimedia.org'
+      }
+    ]
+  }
 };
 
 export default nextConfig;
