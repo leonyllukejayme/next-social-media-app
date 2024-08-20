@@ -14,6 +14,8 @@ const UserInfoCardInteraction = ({
 	isFollowing: boolean;
 	isFollowingSent: boolean;
 }) => {
+	const [isHovered, setIsHovered] = useState(false);
+
 	const [userState, setUserState] = useState({
 		following: isFollowing,
 		blocked: isUserBlocked,
@@ -47,11 +49,12 @@ const UserInfoCardInteraction = ({
 			value === 'follow'
 				? {
 						...state,
-						following: state.following && state.followingRequestSent ? true : false,
+						following:
+							state.following && state.followingRequestSent ? true : false,
 						followingRequestSent:
 							!state.following && !state.followingRequestSent ? true : false,
 				  }
-				: { ...state, blocked: !state.blocked}
+				: { ...state, blocked: !state.blocked }
 	);
 	return (
 		<>
@@ -59,13 +62,17 @@ const UserInfoCardInteraction = ({
 				<button
 					className={`w-full ${
 						optimisticState.following
-							? 'bg-blue-500'
+							? 'bg-blue-500 hover:bg-red-500'
 							: optimisticState.followingRequestSent
 							? 'bg-gray-500'
 							: 'bg-blue-500'
-					} text-white text-sm rounded-md p-2`}>
+					} text-white text-sm rounded-md p-2`}
+					onMouseEnter={() => setIsHovered(true)}
+					onMouseLeave={() => setIsHovered(false)}>
 					{optimisticState.following
-						? 'Following'
+						? isHovered
+							? 'Unfollow'
+							: 'Following'
 						: optimisticState.followingRequestSent
 						? 'Friend Request Sent'
 						: 'Follow'}
