@@ -38,7 +38,7 @@ const ProfileCard = async () => {
                 <Image src='https://upload.wikimedia.org/wikipedia/en/1/1f/Beavis_BeavisandButtHead.png' alt='' width={12} height={12} className="rounded-full object-cover w-3 h-3"/>
                 <Image src='https://upload.wikimedia.org/wikipedia/en/1/1f/Beavis_BeavisandButtHead.png' alt='' width={12} height={12} className="rounded-full object-cover w-3 h-3"/>
             </div>
-            <span className="text-xs text-gray-500">{user._count.followers} Followers</span>
+            <span className="text-xs text-gray-500">{user._count.followers} {user._count.followers === 1  ? "Follower" : "Followers"}</span>
         </div>
         <a href={`/profile/${user.username}`} className="bg-blue-500 text-white text-xs p-2 rounded-md hover:bg-blue-400">My Profile</a>
       </div>
