@@ -26,7 +26,7 @@ const UserInfoCardInteraction = ({
 			await switchFollow(userId);
 			setUserState((prev) => ({
 				...prev,
-				following: prev.following && true,
+				following: prev.following && prev.followingRequestSent ? true : false,
 				followingRequestSent:
 					!prev.following && !prev.followingRequestSent ? true : false,
 			}));
@@ -47,7 +47,7 @@ const UserInfoCardInteraction = ({
 			value === 'follow'
 				? {
 						...state,
-						following: state.following && true,
+						following: state.following && state.followingRequestSent ? true : false,
 						followingRequestSent:
 							!state.following && !state.followingRequestSent ? true : false,
 				  }
