@@ -43,8 +43,8 @@ const UserInfoCard = async ({ user }: { user: User }) => {
 		// Query the database to check if the current user is following the other user
 		const followRes = await prisma.follower.findFirst({
 			where: {
-				followerId: currentUserId, // Current user is the follower
-				followingId: user.id, // Other user is the one being followed
+				followingId: currentUserId,  // Current user is the one being followed
+				followerId: user.id, // Other user is the follower
 			},
 		});
 
@@ -71,7 +71,7 @@ const UserInfoCard = async ({ user }: { user: User }) => {
 			<div className="flex justify-between items-center font-medium">
 				<span className="text-gray-500">User Information</span>
 				{currentUserId === user.id ? (
-					<UpdateUser />
+					<UpdateUser user={user}/>
 				) : (
 					<Link href="/" className="text-blue-500 text-xs">
 						See All
