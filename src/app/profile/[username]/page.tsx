@@ -25,7 +25,7 @@ const ProfilePage = async ({params}:{params:{username:string}}) => {
       },
     }
   })
-  console.log(user);
+  // console.log(user);
 
   if(!user) return notFound();
 
@@ -67,11 +67,11 @@ const ProfilePage = async ({params}:{params:{username:string}}) => {
           <div className="flex items-center justify-center gap-12 mb-4">
             <div className="flex flex-col items-center">
               <span className="font-medium">{user._count.posts}</span>
-              <span className="font-sm">Posts</span>
+              <span className="font-sm">{user._count.posts === 1 ? "Post" : "Posts"}</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="font-medium">{user._count.followers}</span>
-              <span className="font-sm">Followers</span>
+              <span className="font-sm">{user._count.followers === 1  ? "Follower" : "Followers"}</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="font-medium">{user._count.followings}</span>
@@ -79,7 +79,7 @@ const ProfilePage = async ({params}:{params:{username:string}}) => {
             </div>
           </div>
         </div>
-        <Feed />
+        <Feed username={user.username}/>
       </div>
     </div>
     {/* RIGHT */}
