@@ -195,13 +195,13 @@ export const updateProfile = async (
 
 	if (!validatedFields.success) {
 		console.log(validatedFields.error.flatten().fieldErrors);
-		return {success:false,error:true};
+		return { success: false, error: true };
 	}
 
 	const { userId } = auth();
 
 	if (!userId) {
-		return {success:false,error:true};
+		return { success: false, error: true };
 	}
 
 	try {
@@ -211,9 +211,42 @@ export const updateProfile = async (
 			},
 			data: validatedFields.data,
 		});
-		return {success:true,error:false};
+		return { success: true, error: false };
 	} catch (err) {
 		console.log(err);
-		return {success:false,error:true};
+		return { success: false, error: true };
+	}
+};
+
+export const switchLike = async (postId: number) => {
+	const { userId } = auth();
+
+	if (!userId) throw new Error('User is not Authenticated');
+
+	try {
+		const existingLike = await prisma.like.findFirst({
+			where: {
+				postId,
+				userId,
+			},
+		});
+
+		if (existingLike) {
+			await prisma.like.delete({
+				where: {
+					id: existingLike.id,
+				},
+			});
+		} else {
+			await prisma.like.create({
+				data:{
+					postId,
+					userId
+				}
+			})
+		}
+	} catch (err) {
+		console.log(err)
+		throw new Error("Something went wrong")
 	}
 };

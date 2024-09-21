@@ -1,6 +1,7 @@
+import { Post as Posts, User } from "@prisma/client";
 import Image from "next/image";
 import Comments from "./Comments";
-import { Post as Posts, User } from "@prisma/client";
+import PostInteraction from "./PostInteraction";
 
 type PostType = Posts & {user:User} & {likes:[{userId:string}]} & {_count:{comments:number}}
 const Post = ({post}:{post:PostType}) => {
@@ -9,10 +10,15 @@ const Post = ({post}:{post:PostType}) => {
             {/* USER */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
+                <a href={`/profile/${post.user.username}`}>
                 <Image src={post.user.avatar || "/noAvatar.png"} alt="" width={40} height={40} className="w-10 h-10 rounded-full" />
-                <span className="font-medium">{
+                </a>
+                <a href={`/profile/${post.user.username}`}>
+                    <span className="font-medium">{
                     (post.user.name && post.user.surname) ? `${post.user.name} ${post.user.surname}` : post.user.username
                     }</span>
+                </a>
+               
                 </div>
                 <Image src='/more.png' alt="" width={16} height={16} className="cursor-pointer" />
             </div>
@@ -24,27 +30,7 @@ const Post = ({post}:{post:PostType}) => {
                 </div>}
             </div>
             {/* INTERCTION */}
-            <div className="flex items-center justify-between text-sm mt-4">
-                <div className="flex gap-8">
-                    <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-xl">
-                        <Image src='/like.png' alt="" width={16} height={16} className="cursor-pointer" />
-                        <span className="text-gray-300">|</span>
-                        <span className="text-gray-500">100k <span className="hidden md:inline">Likes</span></span>
-                    </div>
-                    <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-xl">
-                        <Image src='/comment.png' alt="" width={16} height={16} className="cursor-pointer" />
-                        <span className="text-gray-300">|</span>
-                        <span className="text-gray-500">100 <span className="hidden md:inline">Comments</span></span>
-                    </div>
-                </div>
-                <div className="">
-                <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-xl">
-                        <Image src='/share.png' alt="" width={16} height={16} className="cursor-pointer" />
-                        <span className="text-gray-300">|</span>
-                        <span className="text-gray-500"><span className="hidden md:inline">Share</span></span>
-                    </div>
-                </div>
-            </div>
+            <PostInteraction postId={post.id} likes={post.likes.map(like => like.userId)} commentNumber={post._count.comments}/>
             {/* COMMENT */}
             <Comments />
         </div>
